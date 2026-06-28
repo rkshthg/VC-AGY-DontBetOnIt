@@ -254,7 +254,7 @@ function LandingPageContent() {
           </div>
 
           {/* Google SSO Login */}
-          <Link
+          <a
             href="/api/auth/google"
             className="btn btn-secondary"
             style={{
@@ -275,7 +275,7 @@ function LandingPageContent() {
               <path fill="#34A853" d="M9 18c2.43 0 4.47-.8 5.96-2.18l-2.77-2.15c-.77.52-1.75.83-2.77.83-2.3 0-4.24-1.86-4.97-4.38l-3.07 2.38C2.44 15.98 5.48 18 9 18z" />
             </svg>
             <span>Continue with Google</span>
-          </Link>
+          </a>
         </div>
 
         {/* Footer Disclaimer */}
