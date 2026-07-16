@@ -114,6 +114,38 @@ export async function getUserByGoogleId(googleId: string): Promise<User | null> 
   return getUserById(userId as string)
 }
 
+export async function deleteUser(userId: string): Promise<void> {
+  const user = await getUserById(userId)
+  if (!user) return
+
+  const crewIds = await redis.smembers(`user:${userId}:crews`)
+  const multi = redis.multi()
+
+  // 1. Remove user from all crews and delete their stats
+  if (crewIds && crewIds.length > 0) {
+    for (const crewId of crewIds) {
+      multi.srem(`crew:${crewId}:members`, userId)
+      multi.srem(`crew:${crewId}:admins`, userId)
+      multi.del(`crew:${crewId}:member:${userId}`)
+    }
+  }
+
+  // 2. Delete user lookup indices
+  multi.del(`user:email:${user.email.toLowerCase()}`)
+  multi.del(`user:username:${user.username.toLowerCase()}`)
+  if (user.googleId) {
+    multi.del(`user:google:${user.googleId}`)
+  }
+
+  // 3. Delete user's list of crews
+  multi.del(`user:${userId}:crews`)
+
+  // 4. Delete the main user hash
+  multi.del(`user:${userId}`)
+
+  await multi.exec()
+}
+
 // --- Crew Database Operations ---
 
 export async function createCrew(name: string, creatorId: string): Promise<Crew> {

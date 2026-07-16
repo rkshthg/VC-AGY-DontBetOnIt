@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 import { getSessionUser } from '@/lib/auth'
-import { createBetCard, isCrewMember } from '@/lib/db'
+import { createBetCard, isCrewMember, getUserById } from '@/lib/db'
 import { isRedisConfigured } from '@/lib/redis'
 
 export async function POST(
@@ -39,6 +39,18 @@ export async function POST(
     const wagerAmount = Number(fixedWager)
     if (isNaN(wagerAmount) || wagerAmount <= 0) {
       return NextResponse.json({ error: 'Wager amount must be a positive number.' }, { status: 400 })
+    }
+
+    // Load fresh user data to check balance
+    const dbUser = await getUserById(user.id)
+    if (!dbUser) {
+      return NextResponse.json({ error: 'User not found.' }, { status: 404 })
+    }
+
+    if (dbUser.balance < wagerAmount) {
+      return NextResponse.json({
+        error: `Insufficient funds. You cannot set a fixed wager of ${wagerAmount.toLocaleString()} Betcoins because you only have ${dbUser.balance.toLocaleString()} Betcoins in your global balance.`
+      }, { status: 400 })
     }
 
     const cleanOptions = options.map(o => o.trim()).filter(Boolean)

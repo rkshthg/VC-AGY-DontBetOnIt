@@ -231,6 +231,13 @@ export default function CrewSpace({ params }: { params: Promise<{ crewId: string
       return
     }
 
+    const userBalance = currentUser?.balance || 0
+    if (newBetWager > userBalance) {
+      setModalError(`Insufficient funds. You cannot set a fixed wager of ${newBetWager.toLocaleString()} Betcoins because you only have ${userBalance.toLocaleString()} Betcoins in your global balance.`)
+      setModalLoading(false)
+      return
+    }
+
     try {
       const res = await fetch(`/api/crews/${crewId}/bets`, {
         method: 'POST',
@@ -392,7 +399,7 @@ export default function CrewSpace({ params }: { params: Promise<{ crewId: string
         <div className="container navbar-container">
           <Link href="/dashboard" className="logo">
             <span className="gold-coin"></span>
-            <span className="text-gold">Don't Bet On It</span>
+            <span className="text-gold logo-text">Don't Bet On It</span>
           </Link>
           <div className="nav-user">
             {currentUser && (
@@ -400,12 +407,12 @@ export default function CrewSpace({ params }: { params: Promise<{ crewId: string
                 <div className="nav-balance">
                   <span className="gold-coin"></span>
                   <span className="text-gold">{currentUser.balance.toLocaleString()}</span>
-                  <span style={{ fontSize: '12px', color: 'var(--text-muted)', marginLeft: '2px' }}>Betcoins</span>
+                  <span className="nav-balance-label" style={{ fontSize: '12px', color: 'var(--text-muted)', marginLeft: '2px' }}>Betcoins</span>
                 </div>
-                <div style={{ fontSize: '14px', fontWeight: '600' }}>
+                <Link href="/profile" className="btn btn-text nav-profile-link" style={{ fontSize: '14px', fontWeight: '600', padding: '8px 12px' }}>
                   @{currentUser.username}
-                </div>
-                <button onClick={handleLogout} className="btn btn-text" style={{ fontSize: '14px' }}>
+                </Link>
+                <button onClick={handleLogout} className="btn btn-text nav-logout-btn" style={{ fontSize: '14px' }}>
                   Log Out
                 </button>
               </>
@@ -419,15 +426,7 @@ export default function CrewSpace({ params }: { params: Promise<{ crewId: string
         {error && <div className="alert alert-error" style={{ marginBottom: '32px' }}>{error}</div>}
 
         {/* Crew Header Banner */}
-        <div className="glass-panel" style={{
-          padding: '24px 32px',
-          marginBottom: '32px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '20px',
-        }}>
+        <div className="glass-panel crew-banner">
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '4px' }}>
               <Link href="/dashboard" style={{ color: 'var(--gold-primary)', textDecoration: 'none', fontSize: '13px', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
@@ -438,17 +437,8 @@ export default function CrewSpace({ params }: { params: Promise<{ crewId: string
             <h1 style={{ fontSize: '26px' }}>{crew?.name}</h1>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <div style={{
-              background: '#0E0706',
-              border: '1px solid var(--panel-border)',
-              padding: '10px 16px',
-              borderRadius: 'var(--radius-sm)',
-              fontSize: '14px',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '12px',
-            }}>
+          <div className="invite-code-container">
+            <div className="invite-code-box">
               <span className="text-muted">Invite Code:</span>
               <strong className="text-gold" style={{ fontFamily: 'var(--font-display)', fontSize: '16px', letterSpacing: '0.05em' }}>{crew?.inviteCode}</strong>
               <button
@@ -503,7 +493,7 @@ export default function CrewSpace({ params }: { params: Promise<{ crewId: string
             </div>
 
             {bets.length === 0 ? (
-              <div className="glass-panel" style={{ padding: '60px', textAlign: 'center' }}>
+              <div className="glass-panel panel-padding-xl" style={{ textAlign: 'center' }}>
                 <p className="text-muted" style={{ marginBottom: '16px' }}>No bet cards have been posted in this lobby yet.</p>
                 <button onClick={() => setShowCreateBetModal(true)} className="btn btn-secondary btn-sm">
                   Post the First Bet Card
@@ -621,13 +611,7 @@ export default function CrewSpace({ params }: { params: Promise<{ crewId: string
                       </div>
 
                       {/* Action Bar */}
-                      <div style={{
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        paddingTop: '16px',
-                        borderTop: '1px solid var(--panel-border)',
-                      }}>
+                      <div className="bet-card-action-bar">
                         {/* Wager Placed Notification / Status info */}
                         <div>
                           {hasUserBet && bet.status === 'active' && (

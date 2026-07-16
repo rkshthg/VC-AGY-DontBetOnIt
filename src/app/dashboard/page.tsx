@@ -157,7 +157,7 @@ export default function Dashboard() {
         <div className="container navbar-container">
           <Link href="/dashboard" className="logo">
             <span className="gold-coin"></span>
-            <span className="text-gold">Don't Bet On It</span>
+            <span className="text-gold logo-text">Don't Bet On It</span>
           </Link>
           <div className="nav-user">
             {user && (
@@ -165,12 +165,12 @@ export default function Dashboard() {
                 <div className="nav-balance">
                   <span className="gold-coin"></span>
                   <span className="text-gold">{user.balance.toLocaleString()}</span>
-                  <span style={{ fontSize: '12px', color: 'var(--text-muted)', marginLeft: '2px' }}>Betcoins</span>
+                  <span className="nav-balance-label" style={{ fontSize: '12px', color: 'var(--text-muted)', marginLeft: '2px' }}>Betcoins</span>
                 </div>
-                <div style={{ fontSize: '14px', fontWeight: '600' }}>
+                <Link href="/profile" className="btn btn-text nav-profile-link" style={{ fontSize: '14px', fontWeight: '600', padding: '8px 12px' }}>
                   @{user.username}
-                </div>
-                <button onClick={handleLogout} className="btn btn-text" style={{ fontSize: '14px' }}>
+                </Link>
+                <button onClick={handleLogout} className="btn btn-text nav-logout-btn" style={{ fontSize: '14px' }}>
                   Log Out
                 </button>
               </>
@@ -184,15 +184,7 @@ export default function Dashboard() {
         {error && <div className="alert alert-error" style={{ marginBottom: '32px' }}>{error}</div>}
 
         {/* Welcome Section */}
-        <div className="gold-card" style={{
-          padding: '32px',
-          marginBottom: '40px',
-          display: 'flex',
-          justifyContent: 'between',
-          alignItems: 'center',
-          flexWrap: 'wrap',
-          gap: '24px',
-        }}>
+        <div className="welcome-banner">
           <div>
             <h1 style={{ fontSize: '28px', marginBottom: '8px' }}>
               Welcome back, <span className="text-gold">{user?.username}</span>!
@@ -201,24 +193,13 @@ export default function Dashboard() {
               You are ready to wager with your friends. Join or create a Crew to start betting.
             </p>
           </div>
-          <div style={{
-            background: 'rgba(18, 10, 8, 0.4)',
-            padding: '20px 32px',
-            borderRadius: 'var(--radius-md)',
-            border: '1px solid rgba(212, 175, 55, 0.2)',
-            textAlign: 'right',
-            marginLeft: 'auto',
-          }}>
+          <div className="welcome-balance">
             <div className="stat-lbl" style={{ marginBottom: '4px' }}>Global Balance</div>
-            <div style={{
+            <div className="balance-amount-container" style={{
               fontSize: '32px',
               fontWeight: '800',
               color: 'var(--gold-primary)',
               fontFamily: 'var(--font-display)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'flex-end',
-              gap: '10px',
             }}>
               <span className="gold-coin" style={{ width: '20px', height: '20px' }}></span>
               <span>{user?.balance.toLocaleString()}</span>
@@ -233,8 +214,7 @@ export default function Dashboard() {
           <div>
             <h2 className="section-title">Your Squad Crews</h2>
             {crews.length === 0 ? (
-              <div className="glass-panel" style={{
-                padding: '48px',
+              <div className="glass-panel panel-padding-xl" style={{
                 textAlign: 'center',
                 display: 'flex',
                 flexDirection: 'column',
@@ -246,7 +226,7 @@ export default function Dashboard() {
                 <p className="text-muted" style={{ maxWidth: '400px', fontSize: '14px' }}>
                   Crews are private wagers spaces. Create your own squad and invite friends, or enter an invite code to join an existing one.
                 </p>
-                <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
+                <div style={{ display: 'flex', gap: '12px', marginTop: '12px', flexWrap: 'wrap', justifyContent: 'center' }}>
                   <button onClick={() => setShowCreateModal(true)} className="btn btn-primary btn-sm">
                     Create Crew
                   </button>
@@ -275,7 +255,7 @@ export default function Dashboard() {
           {/* Right Column: Sidebar Actions */}
           <div>
             <h2 className="section-title">Squad Lounge</h2>
-            <div className="glass-panel" style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            <div className="glass-panel panel-padding-md" style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               <h3 style={{ fontSize: '16px', marginBottom: '8px' }}>Manage Crews</h3>
               <button
                 onClick={() => setShowCreateModal(true)}

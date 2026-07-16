@@ -121,7 +121,7 @@ function LandingPageContent() {
         </div>
 
         {/* Auth Glass Card */}
-        <div className="glass-panel" style={{ padding: '36px', borderRadius: 'var(--radius-lg)' }}>
+        <div className="glass-panel auth-card">
           {error && <div className="alert alert-error">{error}</div>}
           {success && <div className="alert alert-success">{success}</div>}
 

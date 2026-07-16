@@ -639,3 +639,284 @@ h1, h2, h3, h4, h5, h6 {
 .modal-close:hover {
   color: var(--text-main);
 }
+
+/* --- Responsive Layout Adjustments --- */
+
+/* Global container padding adjustment */
+@media (max-width: 480px) {
+  .container {
+    padding: 0 16px;
+  }
+}
+
+/* Responsive Navbar */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 10px 0;
+  }
+  .navbar-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-user {
+    gap: 8px;
+  }
+  .nav-balance {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+  .nav-balance-label {
+    display: none;
+  }
+  .nav-profile-link {
+    font-size: 12px !important;
+    padding: 4px 6px !important;
+  }
+  .nav-logout-btn {
+    font-size: 12px !important;
+    padding: 4px 6px !important;
+  }
+  .logo {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-text {
+    display: none;
+  }
+  .nav-user {
+    gap: 6px;
+  }
+}
+
+/* Welcome Card (Dashboard) */
+.welcome-banner {
+  background: linear-gradient(135deg, #1B100E 0%, #291815 100%);
+  border: 1px solid var(--gold-primary);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-gold), var(--shadow-md);
+  padding: 32px;
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.welcome-balance {
+  background: rgba(18, 10, 8, 0.4);
+  padding: 20px 32px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  text-align: right;
+  margin-left: auto;
+}
+
+@media (max-width: 768px) {
+  .welcome-banner {
+    padding: 20px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .welcome-balance {
+    text-align: left;
+    margin-left: 0;
+    padding: 16px 20px;
+  }
+  .balance-amount-container {
+    justify-content: flex-start !important;
+  }
+}
+
+.balance-amount-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* Crew banner details */
+.crew-banner {
+  padding: 24px 32px;
+  margin-bottom: 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.invite-code-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.invite-code-box {
+  background: #0E0706;
+  border: 1px solid var(--panel-border);
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+@media (max-width: 768px) {
+  .crew-banner {
+    padding: 20px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .invite-code-container {
+    flex-wrap: wrap;
+    gap: 10px;
+    width: 100%;
+  }
+  .invite-code-box {
+    width: 100%;
+    justify-content: space-between;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  .invite-code-container .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 10px;
+  }
+}
+
+/* Stats items adjustments */
+@media (max-width: 480px) {
+  .stats-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .stat-item {
+    padding: 12px;
+  }
+  .stat-val {
+    font-size: 20px;
+  }
+}
+
+/* Bet card header and actions */
+.bet-card-action-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 16px;
+  border-top: 1px solid var(--panel-border);
+}
+
+@media (max-width: 600px) {
+  .bet-card-details {
+    padding: 16px;
+  }
+  .bet-card-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
+  }
+  .bet-card-header > div:last-child {
+    text-align: left !important;
+    border-top: 1px dashed var(--panel-border);
+    padding-top: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .option-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 12px;
+  }
+  .option-votes-stat {
+    align-self: flex-end;
+    font-size: 11px;
+    margin-top: 2px;
+  }
+  .bet-card-action-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  .bet-card-action-bar > div:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  .bet-card-action-bar .btn {
+    width: 100%;
+    justify-content: center;
+    padding: 10px;
+  }
+}
+
+/* Modal styling safety defaults */
+@media (max-width: 560px) {
+  .modal-overlay {
+    padding: 12px;
+  }
+  .modal-content {
+    padding: 20px;
+    max-height: 95vh;
+    border-radius: var(--radius-md);
+  }
+}
+
+/* Responsive Panel Padding Utility Classes */
+.panel-padding-lg {
+  padding: 32px;
+}
+.panel-padding-xl {
+  padding: 48px;
+}
+.panel-padding-md {
+  padding: 24px;
+}
+
+@media (max-width: 560px) {
+  .panel-padding-lg {
+    padding: 20px 16px;
+  }
+  .panel-padding-xl {
+    padding: 24px 16px;
+  }
+  .panel-padding-md {
+    padding: 16px;
+  }
+}
+
+/* Auth Card Landing Page Styling */
+.auth-card {
+  padding: 36px;
+  border-radius: var(--radius-lg);
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 24px 16px;
+    border-radius: var(--radius-md);
+  }
+}
+
+/* Leaderboard User Column Formatting */
+.leaderboard-table td {
+  word-break: break-word;
+}
+
+@media (max-width: 480px) {
+  .leaderboard-table th, 
+  .leaderboard-table td {
+    padding: 10px 8px;
+  }
+}
