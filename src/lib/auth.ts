@@ -1,19 +1,15 @@
 import { SignJWT, jwtVerify } from 'jose'
 import { cookies } from 'next/headers'
-import { getUserById, User } from './db'
+import { getUserById } from './db'
+import type { User } from '../types/user'
+import { SESSION_COOKIE_NAME, COOKIE_MAX_AGE } from '../constants'
+import type { SessionPayload } from '../types/user'
 
 const JWT_SECRET = new TextEncoder().encode(
   process.env.JWT_SECRET || 'fallback_secret_key_dont_bet_on_it_2026'
 )
 
-const SESSION_COOKIE_NAME = 'session_token'
-
-export interface SessionPayload {
-  userId: string
-  email: string
-  username: string
-  exp?: number
-}
+export type { SessionPayload }
 
 export async function signJWT(payload: Omit<SessionPayload, 'exp'>): Promise<string> {
   return new SignJWT({ ...payload })
@@ -42,7 +38,7 @@ export async function setSessionCookie(token: string): Promise<void> {
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     path: '/',
-    maxAge: 60 * 60 * 24 * 30, // 30 days
+    maxAge: COOKIE_MAX_AGE,
   })
 }
 

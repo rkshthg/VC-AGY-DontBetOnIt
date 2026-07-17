@@ -3,25 +3,11 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-
-interface Crew {
-  id: string
-  name: string
-  inviteCode: string
-  creatorId: string
-  createdAt: string
-}
-
-interface UserProfile {
-  id: string
-  username: string
-  email: string
-  balance: number
-  createdAt: string
-}
+import Navbar from '@/components/layout/Navbar'
+import type { User, Crew } from '@/types'
 
 export default function Dashboard() {
-  const [user, setUser] = useState<UserProfile | null>(null)
+  const [user, setUser] = useState<User | null>(null)
   const [crews, setCrews] = useState<Crew[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
@@ -152,32 +138,7 @@ export default function Dashboard() {
 
   return (
     <div className="dashboard-layout">
-      {/* Top Navbar */}
-      <header className="navbar">
-        <div className="container navbar-container">
-          <Link href="/dashboard" className="logo">
-            <span className="gold-coin"></span>
-            <span className="text-gold logo-text">Don't Bet On It</span>
-          </Link>
-          <div className="nav-user">
-            {user && (
-              <>
-                <div className="nav-balance">
-                  <span className="gold-coin"></span>
-                  <span className="text-gold">{user.balance.toLocaleString()}</span>
-                  <span className="nav-balance-label" style={{ fontSize: '12px', color: 'var(--text-muted)', marginLeft: '2px' }}>Betcoins</span>
-                </div>
-                <Link href="/profile" className="btn btn-text nav-profile-link" style={{ fontSize: '14px', fontWeight: '600', padding: '8px 12px' }}>
-                  @{user.username}
-                </Link>
-                <button onClick={handleLogout} className="btn btn-text nav-logout-btn" style={{ fontSize: '14px' }}>
-                  Log Out
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-      </header>
+      <Navbar user={user} onLogout={handleLogout} />
 
       {/* Main Content */}
       <main className="container" style={{ flex: 1, padding: '40px 24px' }}>

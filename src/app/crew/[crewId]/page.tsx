@@ -3,59 +3,15 @@
 import { useState, useEffect, use } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-
-interface Crew {
-  id: string
-  name: string
-  inviteCode: string
-  creatorId: string
-  createdAt: string
-}
-
-interface CrewMemberStats {
-  userId: string
-  username: string
-  email: string
-  globalBalance: number
-  creditsWon: number
-  creditsWagered: number
-  totalBets: number
-  betsWon: number
-  biggestWin: number
-  netProfit: number
-  winRate: number
-}
-
-interface BetCard {
-  id: string
-  crewId: string
-  creatorId: string
-  creatorUsername: string
-  title: string
-  description: string
-  fixedWager: number
-  status: 'active' | 'resolved' | 'refunded'
-  winningOptionId?: string
-  winningOptionText?: string
-  pot: number
-  createdAt: string
-  options: { [optionId: string]: string }
-  wagers: { [userId: string]: string }
-}
-
-interface UserProfile {
-  id: string
-  username: string
-  email: string
-  balance: number
-}
+import Navbar from '@/components/layout/Navbar'
+import type { User, Crew, CrewMemberStats, BetCard } from '@/types'
 
 export default function CrewSpace({ params }: { params: Promise<{ crewId: string }> }) {
   const { crewId } = use(params)
   const router = useRouter()
 
   // Base Data
-  const [currentUser, setCurrentUser] = useState<UserProfile | null>(null)
+  const [currentUser, setCurrentUser] = useState<User | null>(null)
   const [crew, setCrew] = useState<Crew | null>(null)
   const [leaderboard, setLeaderboard] = useState<CrewMemberStats[]>([])
   const [bets, setBets] = useState<BetCard[]>([])
@@ -394,32 +350,7 @@ export default function CrewSpace({ params }: { params: Promise<{ crewId: string
 
   return (
     <div className="dashboard-layout">
-      {/* Top Navbar */}
-      <header className="navbar">
-        <div className="container navbar-container">
-          <Link href="/dashboard" className="logo">
-            <span className="gold-coin"></span>
-            <span className="text-gold logo-text">Don't Bet On It</span>
-          </Link>
-          <div className="nav-user">
-            {currentUser && (
-              <>
-                <div className="nav-balance">
-                  <span className="gold-coin"></span>
-                  <span className="text-gold">{currentUser.balance.toLocaleString()}</span>
-                  <span className="nav-balance-label" style={{ fontSize: '12px', color: 'var(--text-muted)', marginLeft: '2px' }}>Betcoins</span>
-                </div>
-                <Link href="/profile" className="btn btn-text nav-profile-link" style={{ fontSize: '14px', fontWeight: '600', padding: '8px 12px' }}>
-                  @{currentUser.username}
-                </Link>
-                <button onClick={handleLogout} className="btn btn-text nav-logout-btn" style={{ fontSize: '14px' }}>
-                  Log Out
-                </button>
-              </>
-            )}
-          </div>
-        </div>
-      </header>
+      <Navbar user={currentUser} onLogout={handleLogout} />
 
       {/* Main Content */}
       <main className="container" style={{ flex: 1, padding: '40px 24px' }}>
